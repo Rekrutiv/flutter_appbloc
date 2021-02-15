@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> homeScreenKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,112 +24,101 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            BlocConsumer<CounterCubit, CounterState>(
-              listener: (context, state) {
-                if (state.wasIncremented == true) {
-                  homeScreenKey.currentState.showSnackBar(
-                    SnackBar(
-                      content: Text('Incremented!'),
-                      duration: Duration(milliseconds: 300),
-                    ),
-                  );
-                } else if (state.wasIncremented == false) {
-                  homeScreenKey.currentState.showSnackBar(
-                    SnackBar(
-                      content: Text('Decremented!'),
-                      duration: Duration(milliseconds: 300),
-                    ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                if (state.counterValue < 0) {
-                  return Text(
-                    ' NEGATIVE ' + state.counterValue.toString(),
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-                } else if (state.counterValue % 2 == 0) {
-                  return Text(
-                    'divide 2 ' + state.counterValue.toString(),
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-                } else if (state.counterValue == 5) {
-                  return Text(
-                    '5',
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-                } else
-                  return Text(
-                    state.counterValue.toString(),
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-              },
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FloatingActionButton(
-                  heroTag: Text('${widget.title}'),
-                  onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).decrement();
-                    // context.bloc<CounterCubit>().decrement();
-                  },
-                  tooltip: 'Decrement',
-                  child: Icon(Icons.remove),
-                ),
-                FloatingActionButton(
-                  heroTag: Text('${widget.title} 2nd'),
-                  onPressed: () {
-                    // BlocProvider.of<CounterCubit>(context).increment();
-                    context.bloc<CounterCubit>().increment();
-                  },
-                  tooltip: 'Increment',
-                  child: Icon(Icons.add),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            MaterialButton(
-              color: Colors.redAccent,
-              child: Text(
-                'Go to Second Screen',
-                style: TextStyle(color: Colors.white),
+        child: BlocConsumer<CounterCubit, CounterState>(
+            listener: (context, state) {
+          if (state.wasIncremented == true) {
+            homeScreenKey.currentState.showSnackBar(
+              SnackBar(
+                content: Text('Incremented size!'),
+                duration: Duration(milliseconds: 300),
               ),
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  '/second',
-                  arguments: homeScreenKey,
-                );
-              },
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            MaterialButton(
-              color: Colors.greenAccent,
-              child: Text(
-                'Go to Third Screen',
-                style: TextStyle(color: Colors.white),
+            );
+          } else if (state.wasIncremented == false) {
+            homeScreenKey.currentState.showSnackBar(
+              SnackBar(
+                content: Text('Decremented size!'),
+                duration: Duration(milliseconds: 300),
               ),
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  '/third',
-                );
-              },
-            ),
-          ],
-        ),
+            );
+          }
+        }, builder: (context, state) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              MaterialButton(
+                color: Colors.redAccent,
+                splashColor: Colors.yellow,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0)),
+                child: Text(
+                  'Go to Second Screen',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    '/second',
+                    arguments: homeScreenKey,
+                  );
+                },
+              ),
+              SizedBox(
+                height: 24,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FloatingActionButton(
+                    heroTag: Text('${widget.title}'),
+                    onPressed: () {
+                      BlocProvider.of<CounterCubit>(context).decrement();
+                      // context.bloc<CounterCubit>().decrement();
+                    },
+                    tooltip: 'Decrement',
+                    child: Icon(Icons.remove),
+                  ),
+                  AnimatedContainer(
+                    duration: Duration(seconds: 2),
+                    curve: Curves.bounceOut,
+                    height: 100 + state.counterValue.toDouble(),
+                    width: 100 + state.counterValue.toDouble(),
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      shape: BoxShape.circle,
+                    ),
+
+                  ),
+                  FloatingActionButton(
+                    heroTag: Text('${widget.title} 2nd'),
+                    onPressed: () {
+                      BlocProvider.of<CounterCubit>(context).increment();
+                      //context.bloc<CounterCubit>().increment();
+                    },
+                    tooltip: 'Increment',
+                    child: Icon(Icons.add),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 24,
+              ),
+              MaterialButton(
+                color: Colors.greenAccent,
+                splashColor: Colors.yellow,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0)),
+                child: Text(
+                  'Go to First Screen',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    '/home',
+                  );
+                },
+              ),
+            ],
+          );
+        }),
       ),
     );
   }

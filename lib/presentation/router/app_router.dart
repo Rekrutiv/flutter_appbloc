@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc_concepts/presentation/screens/home_screen.dart';
 import 'package:flutter_bloc_concepts/presentation/screens/second_screen.dart';
-import 'package:flutter_bloc_concepts/presentation/screens/third_screen.dart';
+import 'package:flutter_bloc_concepts/presentation/screens/login_screen.dart';
 
 class AppRouter {
   Route onGenerateRoute(RouteSettings settings) {
@@ -10,8 +10,8 @@ class AppRouter {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(
-          builder: (_) => HomeScreen(
-            title: "Home Screen",
+          builder: (_) =>LoginScreen(
+            title: "Login Screen",
             color: Colors.blueAccent,
           ),
         );
@@ -23,10 +23,10 @@ class AppRouter {
             homeScreenKey: key,
           ),
         );
-      case '/third':
+      case '/home':
         return MaterialPageRoute(
-          builder: (_) => ThirdScreen(
-            title: "Thirst Screen",
+          builder: (_) => HomeScreen(
+            title: "Home Screen",
             color: Colors.greenAccent,
           ),
         );
