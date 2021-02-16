@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_concepts/generated/l10n.dart';
 
 import 'package:flutter_bloc_concepts/logic/cubit/my_form_bloc.dart';
 
@@ -45,37 +46,41 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: widget.color,
-        title: Text(widget.title),
-      ),
-      body: BlocListener<MyFormBloc, MyFormState>(
-        listener: (context, state) {
-          if (state.status.isSubmissionSuccess) {
-            Scaffold.of(context).hideCurrentSnackBar();
-            showDialog<void>(
-              context: context,
-              builder: (_) => SuccessDialog(),
-            );
-          }
-          if (state.status.isSubmissionInProgress) {
-            Scaffold.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(content: Text('Submitting...')),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: widget.color,
+          title: Text(widget.title),
+        ),
+        body: BlocListener<MyFormBloc, MyFormState>(
+          listener: (context, state) {
+            if (state.status.isSubmissionSuccess) {
+              Scaffold.of(context).hideCurrentSnackBar();
+              showDialog<void>(
+                context: context,
+                builder: (_) => SuccessDialog(),
               );
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                EmailInput(focusNode: _emailFocusNode),
-                PasswordInput(focusNode: _passwordFocusNode),
-                SubmitButton(),
-              ],
+            }
+            if (state.status.isSubmissionInProgress) {
+              Scaffold.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  const SnackBar(content: Text('Submitting...')),
+                );
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    EmailInput(focusNode: _emailFocusNode),
+                    PasswordInput(focusNode: _passwordFocusNode),
+                    SubmitButton(),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -98,7 +103,7 @@ class EmailInput extends StatelessWidget {
           focusNode: focusNode,
           decoration: InputDecoration(
             icon: const Icon(Icons.email),
-            labelText: 'Email',
+            labelText: S.of(context).Email,
             helperText: 'A complete, valid email e.g. joe@gmail.com',
             errorText: state.email.invalid
                 ? 'Please ensure the email entered is valid'
@@ -132,7 +137,7 @@ class PasswordInput extends StatelessWidget {
             helperText:
                 '''Password should be at least 8 characters with at least one letter and number''',
             helperMaxLines: 2,
-            labelText: 'Password',
+            labelText: S.of(context).password,
             errorMaxLines: 2,
             errorText: state.password.invalid
                 ? '''Password must be at least 8 characters and contain at least one letter and number'''

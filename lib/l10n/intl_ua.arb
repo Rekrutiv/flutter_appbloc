@@ -1,0 +1,11 @@
+{
+  "app_bar_title": "Привіт",
+  "login": "Логін",
+  "required": "Це поле є обов'язковим",
+  "password": "пароль",
+  "username": "ім'я користувача",
+  "try_again": "Спробу ще раз",
+  "minimum_length": " length is @ characters",
+  "maximum_length": "Maximum length is @ characters",
+  "Email": "Електоронна пошта"
+}

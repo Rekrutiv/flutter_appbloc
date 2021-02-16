@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_concepts/generated/l10n.dart';
 import 'package:flutter_bloc_concepts/logic/cubit/counter_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
       key: homeScreenKey,
       appBar: AppBar(
         backgroundColor: widget.color,
-        title: Text(widget.title),
+        title: Text(S.of(context).app_bar_title),
       ),
       body: Center(
         child: BlocConsumer<CounterCubit, CounterState>(
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.amber,
                       shape: BoxShape.circle,
                     ),
-
+                    child: Center(child: Text(S.of(context).app_bar_title)),
                   ),
                   FloatingActionButton(
                     heroTag: Text('${widget.title} 2nd'),
